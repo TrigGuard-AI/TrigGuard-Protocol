@@ -4,6 +4,8 @@
 
 > **TrigGuard Protocol** — deterministic execution governance **contract**, **schemas**, and **conformance tests**.
 
+> **Protocol ≠ product SDK.** Integrators authorize production actions with **`npm install trigguard`** and **`createTrigGuard()`** — see [First 10 minutes](https://github.com/TrigGuard-AI/TrigGuard/blob/main/docs/adoption/FIRST_10_MINUTES.md). This repo publishes the **contract** (`@trigguard/protocol` types); it is not the customer install path.
+
 This repository publishes the canonical TrigGuard protocol specification; protocol authority and development occur in the TrigGuard monorepo.
 
 All SDKs, runtimes, and enforcement layers must conform to this specification.
