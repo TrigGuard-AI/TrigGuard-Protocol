@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@trigguard/protocol)](https://www.npmjs.com/package/@trigguard/protocol)
 
-**Reference implementation** for the TrigGuard protocol in TypeScript: vocabulary (`PERMIT`, `DENY`, `SILENCE`), enforcement semantics, and the `DecisionRecord` shape, plus JSON snapshots aligned with [`core/contracts/decision_contract.json`](../../core/contracts/decision_contract.json).
+**Reference implementation** for the TrigGuard protocol in TypeScript: vocabulary (`PERMIT`, `DENY`, `ESCALATE`, `SILENCE`), enforcement semantics, and the `DecisionRecord` shape, plus JSON snapshots aligned with [`core/contracts/decision_contract.json`](../../core/contracts/decision_contract.json).
 
 **Language-agnostic specification:** [`spec/TG_PROTOCOL.md`](../../spec/TG_PROTOCOL.md) — this npm package is an SDK, not the full protocol.
 
@@ -41,17 +41,28 @@ Published on the public registry under the `@trigguard` scope. For release proce
 
 Or install from a Git URL / workspace as documented in the main [TrigGuard repository](https://github.com/TrigGuard-AI/TrigGuard).
 
-## Decision model
+## Decision model (0.2.0)
 
-| Decision   | Meaning (high level) |
-|------------|----------------------|
-| **PERMIT** | Authorization to proceed under policy (subject to enforcement and deployment rules). |
-| **DENY**   | Action must not proceed as requested. |
-| **SILENCE**| No authorization was issued; without authorization, execution cannot proceed (see `SILENCE_DEFINITION` export). |
+Canonical order: **PERMIT → DENY → ESCALATE → SILENCE**. No aliases between any pair.
 
-Policy-only layers may restrict emitted decisions to **PERMIT** / **DENY**; full protocol surfaces also use **SILENCE** where applicable.
+| Decision | Meaning |
+|----------|---------|
+| **PERMIT** | Authorization has been issued for execution. |
+| **DENY** | Authorization has explicitly been refused. |
+| **ESCALATE** | Execution is not authorized automatically and requires a higher-authority or human decision path. |
+| **SILENCE** | No authorization was issued. Without authorization, execution cannot proceed. |
 
-Other useful exports: `type Decision`, `DECISIONS`, `SILENCE_DEFINITION`, `REASON_CODES`, `decisionContract`.
+**Critical invariants**
+
+- `ESCALATE` ≠ `SILENCE`
+- `executionAllowed(decision) === true` **only** when `decision === "PERMIT"`
+- DENY, ESCALATE, and SILENCE do **not** authorize execution
+
+Policy-only layers may restrict emitted decisions to **PERMIT** / **DENY**; full protocol surfaces also use **ESCALATE** and **SILENCE** where applicable.
+
+Other useful exports: `type Decision`, `DECISIONS`, `PERMIT_DEFINITION`, `DENY_DEFINITION`, `ESCALATE_DEFINITION`, `SILENCE_DEFINITION`, `isCanonicalDecision`, `executionAllowed`, `REASON_CODES`, `decisionContract`.
+
+See [`CHANGELOG.md`](CHANGELOG.md) for the 0.2.0 exhaustive-consumer break note.
 
 ## Subpath exports (JSON)
 
@@ -69,13 +80,14 @@ From `implementations/typescript`:
 ```bash
 npm install
 npm run build
+npm test
 ```
 
 `build` runs `sync-contract` (when the full monorepo is present), `tsc`, and asset copy into `dist/`. Published tarballs are built via `prepack` / `prepare` before `npm publish`.
 
 ## Repository
 
-Canonical TypeScript SDK in this repo: [`implementations/typescript/`](.) (spec: [`spec/`](../../spec/)). The [TrigGuard monorepo](https://github.com/TrigGuard-AI/TrigGuard) carries the same tree until cutover — keep them in sync per [`PROTOCOL_REPO_EXTRACTION.md`](https://github.com/TrigGuard-AI/TrigGuard/blob/main/docs/governance/PROTOCOL_REPO_EXTRACTION.md).
+Canonical TypeScript SDK in this repo: [`implementations/typescript/`](.) (spec: [`spec/`](../../spec/)). The [TrigGuard monorepo](https://github.com/TrigGuard-AI/TrigGuard) carries a mirror until cutover — keep them in sync per [`PROTOCOL_REPO_EXTRACTION.md`](https://github.com/TrigGuard-AI/TrigGuard/blob/main/docs/governance/PROTOCOL_REPO_EXTRACTION.md).
 
 For installation paths and release tagging, see:
 

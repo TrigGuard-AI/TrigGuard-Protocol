@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "TrigGuardCanonicalDecisionRecord",
-  "description": "Authoritative shape for protocol decision records. reason_code values align with core/contracts/decision_contract.json reasonCode registry. Keep spec/decision_contract.schema.json and implementations/typescript/src/schema.json byte-identical (CI: scripts/check_protocol_sync.sh).",
+  "description": "Authoritative shape for protocol decision records. reason_code values align with core/contracts/decision_contract.json reasonCode registry. Keep spec/decision_contract.schema.json and implementations/typescript/src/schema.json byte-identical (CI: scripts/check_protocol_sync.sh). Decision enum order is normative: PERMIT, DENY, ESCALATE, SILENCE. No aliases between ESCALATE and SILENCE.",
   "type": "object",
   "required": ["decision", "enforcement", "reason_code", "timestamp"],
   "properties": {
     "decision": {
       "type": "string",
-      "enum": ["PERMIT", "DENY", "SILENCE"]
+      "enum": ["PERMIT", "DENY", "ESCALATE", "SILENCE"]
     },
     "enforcement": {
       "type": "string",

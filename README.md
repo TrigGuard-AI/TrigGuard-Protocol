@@ -64,7 +64,9 @@ More examples, subpath exports (`/schema`, `/contract`), and path installs: [`im
 
 ## Releases (versioned protocol surface)
 
-**Current:** [**v0.1.0**](https://github.com/TrigGuard-AI/trigguard-protocol/releases/tag/v0.1.0) — initial public protocol release. The **protocol version** in [`spec/TG_PROTOCOL.md`](spec/TG_PROTOCOL.md) matches this tag.
+**Current package:** `@trigguard/protocol` **0.2.0** — DecisionRecord `PERMIT | DENY | ESCALATE | SILENCE`. See [`implementations/typescript/CHANGELOG.md`](implementations/typescript/CHANGELOG.md).
+
+**Historical protocol tag:** [**v0.1.0**](https://github.com/TrigGuard-AI/trigguard-protocol/releases/tag/v0.1.0) — initial public protocol release.
 
 [All releases](https://github.com/TrigGuard-AI/trigguard-protocol/releases)
 

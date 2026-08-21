@@ -22,6 +22,13 @@
       "enforcement": "BLOCKED",
       "reason_code": "MISSING_AUTHORIZATION",
       "timestamp": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "escalate-basic",
+      "decision": "ESCALATE",
+      "enforcement": "BLOCKED",
+      "reason_code": "ESCALATION_REQUIRED",
+      "timestamp": "2026-01-01T00:00:00.000Z"
     }
   ]
 }

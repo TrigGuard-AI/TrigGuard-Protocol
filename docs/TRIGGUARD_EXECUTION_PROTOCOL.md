@@ -30,27 +30,31 @@ All execution requests MUST be expressible in this form. Adapters (e.g. tool/arg
 
 ## 2. Decision model
 
-Every evaluation produces exactly one of three outcomes:
+Every evaluation produces exactly one of four outcomes (DecisionRecord / authorize wire):
 
 | Decision | Meaning | Execution | Receipt |
 |----------|---------|-----------|---------|
-| **PERMIT** | Conditions satisfied; execution allowed | Allowed (caller may proceed) | Issued (signed) |
-| **BLOCK** | Conditions not satisfied; execution prevented | **Blocked** | May be issued for audit |
-| **SILENCE** | Evaluation indeterminate; no decision | **Blocked** | No receipt (fail-closed) |
+| **PERMIT** | Authorization has been issued for execution | Allowed (caller may proceed) | Issued (signed) when configured |
+| **DENY** | Authorization has explicitly been refused | **Blocked** | May be issued for audit |
+| **ESCALATE** | Not authorized automatically; requires a higher-authority or human decision path | **Blocked** until resolved | May carry escalation metadata |
+| **SILENCE** | No authorization was issued | **Blocked** | No authorization artifact |
 
-Definitions:
+**Critical invariants**
 
-- **BLOCK** — Execution is prevented. Policy or constraints explicitly disallow the request. Downstream MUST NOT execute.
-- **SILENCE** — No execution, no receipt. System could not evaluate deterministically (e.g. insufficient context, timeout, conflict). Treated as blocked; no silent allow.
-- **PERMIT** — Execution allowed with a signed receipt. Caller may proceed; receipt binds the decision for audit and offline verification.
+- **ESCALATE ≠ SILENCE** — do not alias either direction.
+- Only **PERMIT** authorizes the caller to perform the irreversible action (`executionAllowed` is true only for PERMIT).
+- DENY, ESCALATE, and SILENCE all mean: do not proceed as if authorized.
+
+> Historical note: older protocol drafts used **BLOCK** as a narrative synonym for refusal. The canonical DecisionRecord token is **DENY**.
 
 ### 2.1 Receipt obligations (normative)
 
 | Outcome | Receipt |
 |---------|---------|
-| **PERMIT** | **MUST** issue a signed receipt (verifiable outcome). |
-| **BLOCK** | **MAY** issue a signed receipt for audit; if issued, it **MUST** conform to [TRIGGUARD_RECEIPT_SCHEMA.md](TRIGGUARD_RECEIPT_SCHEMA.md). |
-| **SILENCE** | **MUST NOT** issue a receipt (fail-closed; no artifact that could be read as authorization). |
+| **PERMIT** | **MUST** issue a signed receipt (verifiable outcome) when receipts are enabled for the surface. |
+| **DENY** | **MAY** issue a signed receipt for audit; if issued, it **MUST** conform to [TRIGGUARD_RECEIPT_SCHEMA.md](TRIGGUARD_RECEIPT_SCHEMA.md). |
+| **ESCALATE** | **MAY** issue receipt/escalation metadata; must not be treated as PERMIT. |
+| **SILENCE** | **MUST NOT** be treated as authorization (fail-closed; no artifact that could be read as PERMIT). |
 
 ---
 
@@ -59,7 +63,7 @@ Definitions:
 **Execution is blocked unless conditions are explicitly satisfied.**
 
 - Only a **PERMIT** outcome authorizes the caller to perform the irreversible action.
-- BLOCK and SILENCE both mean: do not proceed.
+- DENY, ESCALATE, and SILENCE all mean: do not proceed.
 - There are no silent fallbacks, default-allow paths, or approximations.
 
 ---
