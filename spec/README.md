@@ -5,7 +5,7 @@ Canonical **machine-readable** artifacts for the decision record shape. Full nor
 | Artifact | Purpose |
 |----------|---------|
 | [`TG_PROTOCOL.md`](TG_PROTOCOL.md) | Short hub: version table, goals, links. |
-| [`decision_contract.schema.json`](decision_contract.schema.json) | JSON Schema (draft-07) for **TrigGuardCanonicalDecisionRecord** (`PERMIT` / `DENY` / `SILENCE`). |
+| [`decision_contract.schema.json`](decision_contract.schema.json) | JSON Schema (draft-07) for **TrigGuardCanonicalDecisionRecord** (`PERMIT` / `DENY` / `ESCALATE` / `SILENCE`). |
 
 **SDK copy:** [`implementations/typescript/src/schema.json`](../implementations/typescript/src/schema.json) must **byte-match** this file (enforced by CI and `scripts/check_protocol_sync.sh`).
 

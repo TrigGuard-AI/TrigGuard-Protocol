@@ -1,7 +1,7 @@
 {
   "name": "@trigguard/protocol",
-  "version": "0.1.2",
-  "description": "Shared TypeScript types and JSON contract snapshots for TrigGuard authorization decisions and records.",
+  "version": "0.2.0",
+  "description": "Shared TypeScript types and JSON contract snapshots for TrigGuard authorization decisions and records (PERMIT|DENY|ESCALATE|SILENCE).",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -16,13 +16,15 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
     "sync-contract": "node scripts/sync-contract.mjs",
     "build": "npm run sync-contract && tsc && node scripts/copy-assets.mjs",
     "prepare": "npm run build",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "npm run build && node --test test/*.mjs"
   },
   "keywords": [
     "trigguard",

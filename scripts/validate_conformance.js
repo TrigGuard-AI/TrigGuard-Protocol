@@ -11,7 +11,7 @@ const path = require("path");
 const root = path.join(__dirname, "..");
 const confPath = path.join(root, "conformance", "protocol-tests.json");
 
-const DECISIONS = new Set(["PERMIT", "DENY", "SILENCE"]);
+const DECISIONS = new Set(["PERMIT", "DENY", "ESCALATE", "SILENCE"]);
 const ENFORCEMENT = new Set(["EXECUTED", "BLOCKED"]);
 
 function main() {

@@ -2,7 +2,7 @@
 
 | Item | Value |
 |------|--------|
-| **Protocol version** | **v0.1.0** — must match [git tag `v0.1.0`](https://github.com/TrigGuard-AI/trigguard-protocol/releases/tag/v0.1.0) on this repo ([Releases](https://github.com/TrigGuard-AI/trigguard-protocol/releases)). |
+| **Protocol version** | **v0.2.0** — DecisionRecord four-state contract (`@trigguard/protocol` npm). Git tags for historical protocol releases remain listed under [Releases](https://github.com/TrigGuard-AI/trigguard-protocol/releases). |
 | **Spec artifact** | [`decision_contract.schema.json`](decision_contract.schema.json) |
 | **Conformance** | [`conformance/protocol-tests.json`](../conformance/protocol-tests.json) |
 | **TypeScript SDK** | [`implementations/typescript`](../implementations/typescript) (`@trigguard/protocol` on npm) |
@@ -16,7 +16,7 @@
 ## Goals
 
 - **One decision shape** across products: `decision`, `enforcement`, `reason_code`, `timestamp`.
-- **Deterministic vocabulary** for `decision` (`PERMIT` \| `DENY` \| `SILENCE`) and `enforcement` (`EXECUTED` \| `BLOCKED`).
+- **Deterministic vocabulary** for `decision` (`PERMIT` \| `DENY` \| `ESCALATE` \| `SILENCE`, canonical order) and `enforcement` (`EXECUTED` \| `BLOCKED`). **ESCALATE ≠ SILENCE.** Only **PERMIT** authorizes execution.
 - **No spec drift** between `spec/` and the npm package schema (CI gate).
 
 ## Canonical prose

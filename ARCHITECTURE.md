@@ -7,7 +7,7 @@ This repository holds the **public protocol layer**: **spec** (JSON Schema), **n
 | Concept | Meaning |
 |--------|---------|
 | **Execution gate** | Irreversible work must not proceed without a valid **authorization path** (per execution protocol; enforced in product gateways). |
-| **Policy evaluation** | Policy and signals feed a **single authority** for executable decisions (`PERMIT` / `DENY` / `SILENCE` vocabulary in the decision record). |
+| **Policy evaluation** | Policy and signals feed a **single authority** for executable decisions (`PERMIT` / `DENY` / `ESCALATE` / `SILENCE` vocabulary in the decision record). |
 | **Deterministic outcomes** | Same inputs → same decision semantics; **no** ambiguous “maybe executed” for governed outcomes. |
 | **Authority & receipts** | When permitted, **verifiable** artifacts bind decisions to requests (see receipt and verification docs under `docs/`). |
 
@@ -17,7 +17,7 @@ This repository holds the **public protocol layer**: **spec** (JSON Schema), **n
 Client / agent
     → describes request (surface, context, signals)
     → gateway / authority evaluates policy
-    → decision record (PERMIT | DENY | SILENCE) + enforcement
+    → decision record (PERMIT | DENY | ESCALATE | SILENCE) + enforcement
     → optional signed receipt for audit / offline verification
 ```
 
