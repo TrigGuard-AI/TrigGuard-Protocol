@@ -1,0 +1,22 @@
+version: 2.1
+
+# Replaces the protocol-spec-sync GitHub Actions check.
+# Tag publish stays on GitHub because it needs the npm token.
+jobs:
+  protocol_checks:
+    docker:
+      - image: cimg/node:22.22.1
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Check protocol spec sync
+          command: bash scripts/check_protocol_sync.sh
+      - run:
+          name: Validate conformance fixtures
+          command: node scripts/validate_conformance.js
+
+workflows:
+  protocol_checks:
+    jobs:
+      - protocol_checks
