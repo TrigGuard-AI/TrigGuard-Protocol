@@ -1,11 +1,9 @@
 # Spec + SDK schema byte-match; conformance fixture validation.
 name: protocol-spec-sync
 
+# CircleCI job protocol_checks owns this check.
 on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
